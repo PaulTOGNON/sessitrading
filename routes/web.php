@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ProductController::class, 'index'])->name('store.index');
+Route::get('/products', [ProductController::class, 'shop'])->name('store.shop');
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('store.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
