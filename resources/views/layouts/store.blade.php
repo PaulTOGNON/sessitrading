@@ -97,9 +97,9 @@
                         <span class="text-[10px] font-bold text-gray-700 dark:text-gray-300">{{ explode(' ', Auth::user()->name)[0] }}</span>
                     </a>
                 @else
-                    <div class="flex items-center gap-2.5">
-                        <a href="{{ route('login') }}" class="text-xs font-bold text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">Connexion</a>
-                        <a href="{{ route('register') }}" class="bg-orange-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:bg-orange-600 transition-colors">S'inscrire</a>
+                    <div class="flex items-center gap-1.5 min-[375px]:gap-2.5">
+                        <a href="{{ route('login') }}" class="text-[11px] min-[375px]:text-xs font-bold text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">Connexion</a>
+                        <a href="{{ route('register') }}" class="bg-orange-500 text-white text-[9px] min-[375px]:text-[10px] font-bold px-2.5 min-[375px]:px-3 py-1.5 rounded-full hover:bg-orange-600 transition-colors">S'inscrire</a>
                     </div>
                 @endauth
             </div>
