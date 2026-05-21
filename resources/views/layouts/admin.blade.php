@@ -29,7 +29,7 @@
             <div class="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
                 <!-- Brand logo -->
                 <div class="flex items-center flex-shrink-0 px-6">
-                    <x-application-logo type="admin" class="scale-90 origin-left" />
+                    <x-application-logo type="admin" />
                 </div>
                 
                 <!-- Navigation -->
@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="flex items-center flex-shrink-0 px-6">
-                        <x-application-logo type="admin" class="scale-90 origin-left" />
+                        <x-application-logo type="admin" />
                     </div>
 
                     <nav class="mt-8 flex-1 px-4 space-y-1 overflow-y-auto">
@@ -131,16 +131,18 @@
         <!-- Main Content Area -->
         <div class="flex-1 md:pl-64 flex flex-col min-h-screen">
             <!-- Mobile Header bar -->
-            <header class="flex items-center justify-between md:hidden bg-white border-b border-gray-200 px-4 py-3">
-                <button type="button" @click="mobileSidebarOpen = true" class="text-gray-500 focus:outline-none">
+            <header class="relative flex items-center justify-between md:hidden bg-white border-b border-gray-200 px-4 py-3">
+                <button type="button" @click="mobileSidebarOpen = true" class="text-gray-500 focus:outline-none z-10">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
-                <div class="flex items-center">
-                    <x-application-logo type="admin" class="scale-75 origin-center" />
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div class="pointer-events-auto">
+                        <x-application-logo type="admin" />
+                    </div>
                 </div>
-                <div class="w-6"></div> <!-- spacer -->
+                <div class="w-6 z-10"></div> <!-- spacer -->
             </header>
 
             <!-- Inner Page Content -->

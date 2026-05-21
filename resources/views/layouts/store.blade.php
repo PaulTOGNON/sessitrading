@@ -29,7 +29,7 @@
         <!-- Desktop Header Interface -->
         <div class="hidden md:flex max-w-7xl mx-auto px-4 lg:px-8 h-20 items-center justify-between">
             <!-- Brand Logo -->
-            <a href="{{ route('store.index') }}">
+            <a href="{{ route('store.index') }}" class="flex items-center flex-shrink-0">
                 <x-application-logo type="full" />
             </a>
 
@@ -86,8 +86,8 @@
             <!-- Top bar -->
             <div class="flex items-center justify-between">
                 <!-- Brand Logo (Mobile) -->
-                <a href="{{ route('store.index') }}">
-                    <x-application-logo type="full" class="scale-90 origin-left" />
+                <a href="{{ route('store.index') }}" class="flex items-center flex-shrink-0">
+                    <x-application-logo type="full" />
                 </a>
 
                 <!-- Profile / Auth Links (Mobile) -->
@@ -137,8 +137,8 @@
         <div class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
             <!-- Brand Info -->
             <div class="flex flex-col gap-4">
-                <a href="{{ route('store.index') }}">
-                    <x-application-logo type="full" class="scale-90 origin-left" />
+                <a href="{{ route('store.index') }}" class="flex items-center flex-shrink-0">
+                    <x-application-logo type="full" />
                 </a>
                 <p class="text-xs leading-relaxed text-gray-500">
                     Sessitrading vous propose les meilleures sélections de vêtements originaux et de qualité premium, neufs et importés. De la mode traditionnelle aux baskets tendance.
