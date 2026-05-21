@@ -25,6 +25,7 @@ class AdminSeeder extends Seeder
                 'country' => 'Bénin',
                 'password' => Hash::make('AdminSecurePassword2026!'),
                 'is_admin' => true,
+                'email_verified_at' => now(),
             ]
         );
     }

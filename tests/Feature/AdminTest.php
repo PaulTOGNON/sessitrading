@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -51,6 +52,55 @@ class AdminTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.dashboard'));
         $response->assertStatus(200);
         $response->assertSee('Tableau de Bord');
+    }
+
+    /**
+     * Test admin login redirects to admin dashboard.
+     */
+    public function test_admin_login_redirects_to_admin_dashboard(): void
+    {
+        $admin = User::factory()->create([
+            'is_admin' => true,
+            'password' => bcrypt('password'),
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $admin->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticatedAs($admin);
+        $response->assertRedirect(route('admin.dashboard'));
+    }
+
+    /**
+     * Test customer login redirects to customer dashboard.
+     */
+    public function test_customer_login_redirects_to_customer_dashboard(): void
+    {
+        $customer = User::factory()->create([
+            'is_admin' => false,
+            'password' => bcrypt('password'),
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $customer->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticatedAs($customer);
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
+    /**
+     * Test admin visiting customer dashboard redirects to admin dashboard.
+     */
+    public function test_admin_visiting_customer_dashboard_redirects_to_admin_dashboard(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $response = $this->actingAs($admin)->get('/dashboard');
+        $response->assertRedirect(route('admin.dashboard'));
     }
 
     /**

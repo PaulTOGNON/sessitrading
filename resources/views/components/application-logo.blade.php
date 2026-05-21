@@ -31,7 +31,7 @@
         </div>
         <!-- Text -->
         <span class="{{ $textSizeClass }} font-black tracking-tight text-gray-950 dark:text-white whitespace-nowrap">
-            Sessi<span class="text-orange-500">@if($type === 'admin')admin@else<span>trading</span>@endif</span>
+            Sessi<span class="text-orange-500">{{ $type === 'admin' ? 'admin' : 'trading' }}</span>
         </span>
     </div>
 @endif

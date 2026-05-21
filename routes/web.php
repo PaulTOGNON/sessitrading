@@ -21,11 +21,17 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('store.
 
 Route::get('/dashboard', function () {
     $user = Auth::user();
+    if ($user && $user->is_admin) {
+        return redirect()->route('admin.dashboard');
+    }
+    if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+        return redirect()->route('verification.notice');
+    }
     $orders = $user->orders()->with('items')->get();
     $favorites = $user->favorites()->get();
     $cartItems = $user->cartItems()->get();
     return view('dashboard', compact('orders', 'favorites', 'cartItems'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 // Dynamic E-Commerce Routes
 use App\Http\Controllers\CartController;
