@@ -29,11 +29,8 @@
         <!-- Desktop Header Interface -->
         <div class="hidden md:flex max-w-7xl mx-auto px-4 lg:px-8 h-20 items-center justify-between">
             <!-- Brand Logo -->
-            <a href="{{ route('store.index') }}" class="flex items-center gap-2 group">
-                <span class="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform duration-300">S</span>
-                <span class="text-2xl font-black tracking-tight text-gray-950 dark:text-white">
-                    Sessi<span class="text-orange-500">trading</span>
-                </span>
+            <a href="{{ route('store.index') }}">
+                <x-application-logo type="full" />
             </a>
 
             <!-- Navigation Links -->
@@ -54,20 +51,6 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </span>
                 </form>
-
-                <!-- Location Selector (Desktop) -->
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:text-orange-500 bg-gray-100 dark:bg-gray-800 px-3.5 py-2 rounded-full transition-colors duration-200">
-                        <span>📍 Sessitrading (Prêt-à-porter)</span>
-                        <svg class="w-3.5 h-3.5 text-gray-400 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-xl py-2 z-50">
-                        <span class="block px-4 py-1 text-[10px] uppercase font-bold tracking-wider text-gray-400">Choisir un point de vente</span>
-                        <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-orange-50 hover:text-orange-600 dark:hover:bg-orange-950/30 dark:hover:text-orange-400 font-medium">Sessitrading (Prêt-à-porter)</button>
-                        <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-orange-50 hover:text-orange-600 dark:hover:bg-orange-950/30 dark:hover:text-orange-400">Akpakpa Boutique</button>
-                        <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-orange-50 hover:text-orange-600 dark:hover:bg-orange-950/30 dark:hover:text-orange-400">Dantokpa Stand A4</button>
-                    </div>
-                </div>
 
                 <!-- Wishlist -->
                 <a href="{{ Auth::check() ? route('dashboard', ['tab' => 'favorites']) : route('login') }}" class="relative p-2 text-gray-500 hover:text-orange-500 hover:scale-105 transition-all">
@@ -102,30 +85,23 @@
         <div class="md:hidden flex flex-col px-4 pt-3.5 pb-3.5 gap-3.5 bg-white dark:bg-gray-900">
             <!-- Top bar -->
             <div class="flex items-center justify-between">
-                <!-- Circular Icon with m/s and location text -->
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-black text-lg shadow-md shadow-orange-500/20">S</div>
-                    <div class="flex flex-col">
-                        <span class="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider leading-none">Explorer</span>
-                        <!-- Location Dropdown Mobile -->
-                        <div x-data="{ open: false }" class="relative mt-0.5">
-                            <button @click="open = !open" class="flex items-center gap-1 text-sm font-bold text-gray-950 dark:text-white focus:outline-none">
-                                <span>Sessitrading (Prêt-à-porter)</span>
-                                <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div x-show="open" @click.away="open = false" x-transition class="absolute left-0 mt-2 w-56 bg-white dark:bg-gray-800 border border-gray-150 dark:border-gray-700 rounded-2xl shadow-xl py-2 z-50">
-                                <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-orange-50 dark:hover:bg-orange-950/30 text-orange-500 font-bold">Sessitrading (Prêt-à-porter)</button>
-                                <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-orange-50 dark:hover:bg-orange-950/30">Akpakpa Boutique</button>
-                                <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-orange-50 dark:hover:bg-orange-950/30">Dantokpa Stand A4</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Brand Logo (Mobile) -->
+                <a href="{{ route('store.index') }}">
+                    <x-application-logo type="full" class="scale-90 origin-left" />
+                </a>
 
-                <!-- Location Marker Icon -->
-                <button class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                </button>
+                <!-- Profile / Auth Links (Mobile) -->
+                @auth
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-1.5 p-1 px-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 rounded-full transition-colors">
+                        <span class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        <span class="text-[10px] font-bold text-gray-700 dark:text-gray-300">{{ explode(' ', Auth::user()->name)[0] }}</span>
+                    </a>
+                @else
+                    <div class="flex items-center gap-2.5">
+                        <a href="{{ route('login') }}" class="text-xs font-bold text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">Connexion</a>
+                        <a href="{{ route('register') }}" class="bg-orange-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:bg-orange-600 transition-colors">S'inscrire</a>
+                    </div>
+                @endauth
             </div>
 
             <!-- Search and Wishlist Row -->
@@ -161,11 +137,8 @@
         <div class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
             <!-- Brand Info -->
             <div class="flex flex-col gap-4">
-                <a href="{{ route('store.index') }}" class="flex items-center gap-2">
-                    <span class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-white font-black text-base">S</span>
-                    <span class="text-xl font-bold tracking-tight text-gray-950 dark:text-white">
-                        Sessi<span class="text-orange-500">trading</span>
-                    </span>
+                <a href="{{ route('store.index') }}">
+                    <x-application-logo type="full" class="scale-90 origin-left" />
                 </a>
                 <p class="text-xs leading-relaxed text-gray-500">
                     Sessitrading vous propose les meilleures sélections de vêtements originaux et de qualité premium, neufs et importés. De la mode traditionnelle aux baskets tendance.

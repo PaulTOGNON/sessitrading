@@ -9,9 +9,7 @@
             <div class="text-center">
                 <!-- Logo -->
                 <div class="flex justify-center mb-4">
-                    <span class="w-14 h-14 rounded-2xl bg-orange-500 flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-orange-500/20">
-                        S
-                    </span>
+                    <x-application-logo type="icon" class="scale-125 shadow-lg shadow-orange-500/20" />
                 </div>
                 <h2 class="text-3xl font-black text-gray-950 tracking-tight">
                     Mot de passe oublié
