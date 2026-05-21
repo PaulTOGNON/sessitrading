@@ -43,6 +43,64 @@ class ProfileTest extends TestCase
         $this->assertNull($user->email_verified_at);
     }
 
+    public function test_profile_information_can_be_updated_with_ecommerce_fields(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch('/profile', [
+                'first_name' => 'Jean',
+                'last_name' => 'Dupont',
+                'phone_number' => '+229 01 02 03 04',
+                'address' => 'Rue 123, Cotonou',
+                'city' => 'Cotonou',
+                'country' => 'Bénin',
+                'email' => 'jean.dupont@example.com',
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/profile');
+
+        $user->refresh();
+
+        $this->assertSame('Jean Dupont', $user->name);
+        $this->assertSame('Jean', $user->first_name);
+        $this->assertSame('Dupont', $user->last_name);
+        $this->assertSame('+229 01 02 03 04', $user->phone_number);
+        $this->assertSame('Rue 123, Cotonou', $user->address);
+        $this->assertSame('Cotonou', $user->city);
+        $this->assertSame('Bénin', $user->country);
+        $this->assertSame('jean.dupont@example.com', $user->email);
+        $this->assertNull($user->email_verified_at);
+    }
+
+    public function test_profile_information_can_be_updated_with_dashboard_redirect(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch('/profile', [
+                'first_name' => 'Jean',
+                'last_name' => 'Dupont',
+                'phone_number' => '+229 01 02 03 04',
+                'address' => 'Rue 123, Cotonou',
+                'city' => 'Cotonou',
+                'country' => 'Bénin',
+                'email' => 'jean.dupont@example.com',
+                'redirect_to' => 'dashboard',
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/dashboard?tab=settings');
+
+        $user->refresh();
+        $this->assertSame('Jean Dupont', $user->name);
+    }
+
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
         $user = User::factory()->create();
