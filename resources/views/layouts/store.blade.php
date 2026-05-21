@@ -134,9 +134,9 @@
 
     <!-- FOOTER -->
     <footer class="bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 pt-16 pb-28 md:pb-12 border-t border-gray-150 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
             <!-- Brand Info -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 col-span-2 lg:col-span-1">
                 <a href="{{ route('store.index') }}" class="flex items-center flex-shrink-0">
                     <x-application-logo type="full" />
                 </a>
@@ -150,7 +150,7 @@
             </div>
 
             <!-- Categories -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 col-span-1">
                 <h4 class="text-sm font-bold text-gray-955 dark:text-white uppercase tracking-wider">Catégories</h4>
                 <div class="flex flex-col gap-2 text-xs">
                     <a href="{{ route('store.shop') }}" class="hover:text-orange-500 transition-colors">Boubous Traditionnels</a>
@@ -161,7 +161,7 @@
             </div>
 
             <!-- Links -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 col-span-1">
                 <h4 class="text-sm font-bold text-gray-955 dark:text-white uppercase tracking-wider">Aide & Contact</h4>
                 <ul class="flex flex-col gap-3.5 text-xs text-gray-600 dark:text-gray-400">
                     <li class="flex items-start gap-2.5">
@@ -211,14 +211,45 @@
             </div>
 
             <!-- Newsletter -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 col-span-2 lg:col-span-1" x-data="{ email: '', loading: false }">
                 <h4 class="text-sm font-bold text-gray-955 dark:text-white uppercase tracking-wider">Newsletter</h4>
                 <p class="text-xs leading-relaxed text-gray-500">
                     Abonnez-vous pour recevoir les nouveautés et les promotions exclusives de Sessitrading.
                 </p>
-                <form action="#" class="flex gap-2">
-                    <input type="email" placeholder="Votre email" class="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs px-3.5 py-2.5 w-full focus:ring-1 focus:ring-orange-500 text-gray-900 dark:text-white">
-                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-orange-500/10">OK</button>
+                <form @submit.prevent="
+                    if (!email) return;
+                    loading = true;
+                    fetch('{{ route('newsletter.subscribe') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ email: email })
+                    })
+                    .then(res => res.json().then(data => ({ status: res.status, data })))
+                    .then(({ status, data }) => {
+                        loading = false;
+                        if (status === 200) {
+                            email = '';
+                            window.toastStore.add('success', data.message, 'Newsletter');
+                        } else {
+                            window.toastStore.add('error', data.message || 'Une erreur est survenue.', 'Newsletter');
+                        }
+                    })
+                    .catch(err => {
+                        loading = false;
+                        window.toastStore.add('error', 'Impossible de se connecter au serveur.', 'Newsletter');
+                    })
+                " class="flex gap-2">
+                    <input type="email" x-model="email" placeholder="Votre email" required class="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs px-3.5 py-2.5 w-full focus:ring-1 focus:ring-orange-500 text-gray-900 dark:text-white">
+                    <button type="submit" :disabled="loading" class="bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-orange-500/10 flex items-center justify-center gap-1.5 min-w-[50px]">
+                        <span x-show="!loading">OK</span>
+                        <svg x-show="loading" class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
                 </form>
             </div>
         </div>

@@ -9,6 +9,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\Admin\NewsletterSubscriberController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,6 +64,9 @@ Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remov
 Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 Route::post('/orders/place', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
 
+// Newsletter Route
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
 // FedaPay Payment Routes
 Route::get('/checkout/pay/{order}', [PaymentController::class, 'pay'])->name('checkout.pay')->middleware('auth');
 Route::get('/checkout/callback/{order}', [PaymentController::class, 'callback'])->name('checkout.callback');
@@ -98,6 +103,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/payment-settings', [PaymentSettingController::class, 'index'])->name('payment-settings.index');
     Route::post('/payment-settings', [PaymentSettingController::class, 'update'])->name('payment-settings.update');
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+
+    // Newsletter Management
+    Route::get('/newsletter', [NewsletterSubscriberController::class, 'index'])->name('newsletter.index');
+    Route::delete('/newsletter/{subscriber}', [NewsletterSubscriberController::class, 'destroy'])->name('newsletter.destroy');
+    Route::get('/newsletter/export', [NewsletterSubscriberController::class, 'export'])->name('newsletter.export');
 });
 
 require __DIR__.'/auth.php';

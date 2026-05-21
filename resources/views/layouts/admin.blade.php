@@ -83,6 +83,13 @@
                         </svg>
                         Transactions
                     </a>
+
+                    <a href="{{ route('admin.newsletter.index') }}" class="group flex items-center px-3 py-2.5 text-sm font-semibold rounded-lg transition-colors duration-150 {{ Request::routeIs('admin.newsletter*') ? 'bg-orange-50 text-orange-600' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        <svg class="mr-3 h-5 w-5 flex-shrink-0 {{ Request::routeIs('admin.newsletter*') ? 'text-orange-600' : 'text-gray-400 group-hover:text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Newsletter
+                    </a>
                 </nav>
 
                 <!-- Footer Sidebar -->
@@ -132,6 +139,7 @@
                         <a href="{{ route('admin.analytics') }}" class="group flex items-center px-3 py-2.5 text-sm font-semibold rounded-lg {{ Request::routeIs('admin.analytics*') ? 'bg-orange-50 text-orange-600' : 'text-gray-600' }}">Analyses</a>
                         <a href="{{ route('admin.payment-settings.index') }}" class="group flex items-center px-3 py-2.5 text-sm font-semibold rounded-lg {{ Request::routeIs('admin.payment-settings*') ? 'bg-orange-50 text-orange-600' : 'text-gray-600' }}">Paiements</a>
                         <a href="{{ route('admin.transactions.index') }}" class="group flex items-center px-3 py-2.5 text-sm font-semibold rounded-lg {{ Request::routeIs('admin.transactions*') ? 'bg-orange-50 text-orange-600' : 'text-gray-600' }}">Transactions</a>
+                        <a href="{{ route('admin.newsletter.index') }}" class="group flex items-center px-3 py-2.5 text-sm font-semibold rounded-lg {{ Request::routeIs('admin.newsletter*') ? 'bg-orange-50 text-orange-600' : 'text-gray-600' }}">Newsletter</a>
                         
                         <hr class="my-4 border-gray-200">
                         <a href="{{ route('store.index') }}" class="group flex items-center px-3 py-2 text-sm font-semibold rounded-lg text-gray-500">Retour Boutique</a>
