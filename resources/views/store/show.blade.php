@@ -17,9 +17,9 @@
         selectedSize: 'M',
         quantity: 1,
         activeTab: 'desc',
-        activeImage: '/images/products/{{ $product->image }}',
+        activeImage: '/images/products/{{$product->image}}?v=2',
         thumbnailImages: [
-            '/images/products/{{ $product->image }}',
+            '/images/products/{{$product->image}}?v=2',
             'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80',
             'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&auto=format&fit=crop&q=80'
         ]
@@ -189,7 +189,7 @@
 
                     <!-- Image with link -->
                     <a href="{{ route('store.show', $related->slug) }}" class="block overflow-hidden bg-gray-50 dark:bg-gray-950 aspect-[4/5] relative">
-                        <img src="/images/products/{{ $related->image }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $related->name }}">
+                        <img src="/images/products/{{$related->image}}?v=2" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $related->name }}">
                         @if($related->is_new)
                             <span class="absolute top-3 left-3 bg-orange-500 text-white font-bold text-[9px] px-2.5 py-0.5 rounded-md">NEW</span>
                         @elseif($related->original_price)

@@ -157,7 +157,7 @@
                                 <template x-for="item in activeOrder.items" :key="item.id">
                                     <div class="flex items-center justify-between border-b border-gray-50 pb-2 last:border-0 last:pb-0">
                                         <div class="flex items-center gap-3">
-                                            <img :src="'/images/products/' + item.product_image" class="w-10 h-10 object-cover rounded-lg border border-gray-100 flex-shrink-0">
+                                            <img :src="'/images/products/' + item.product_image + '?v=2'" class="w-10 h-10 object-cover rounded-lg border border-gray-100 flex-shrink-0">
                                             <div>
                                                 <h5 class="text-sm font-bold text-gray-900" x-text="item.product_name"></h5>
                                                 <p class="text-xs text-gray-400" x-text="'Quantité : ' + item.quantity"></p>

@@ -121,7 +121,7 @@
 
                                 <!-- Image with link -->
                                 <a href="{{ route('store.show', $product->slug) }}" class="block overflow-hidden bg-gray-50 dark:bg-gray-950 aspect-[4/5] relative">
-                                    <img src="/images/products/{{ $product->image }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
+                                    <img src="/images/products/{{$product->image}}?v=2" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
                                     @if($product->is_new)
                                         <span class="absolute top-3 left-3 bg-orange-500 text-white font-bold text-[9px] px-2.5 py-0.5 rounded-md">NEW</span>
                                     @elseif($product->original_price)

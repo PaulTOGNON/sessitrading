@@ -33,19 +33,19 @@
                     <div class="grid grid-cols-2 gap-4 max-w-sm w-full relative z-10">
                         <div class="bg-white/15 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-transform duration-300">
                             <span class="text-[9px] uppercase font-bold text-orange-200">Robes</span>
-                            <img src="/images/products/product2.jpeg" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="robe">
+                            <img src="/images/products/product2.jpeg?v=2" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="robe">
                         </div>
                         <div class="bg-white/15 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-transform duration-300">
                             <span class="text-[9px] uppercase font-bold text-orange-200">Boubous</span>
-                            <img src="/images/products/product1.jpeg" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="boubou">
+                            <img src="/images/products/product1.jpeg?v=2" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="boubou">
                         </div>
                         <div class="bg-white/15 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-transform duration-300">
                             <span class="text-[9px] uppercase font-bold text-orange-200">Sacs</span>
-                            <img src="/images/products/product7.jpeg" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="bag">
+                            <img src="/images/products/product7.jpeg?v=2" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="bag">
                         </div>
                         <div class="bg-white/15 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-transform duration-300">
                             <span class="text-[9px] uppercase font-bold text-orange-200">Gilets</span>
-                            <img src="/images/products/product5.jpeg" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="gilet">
+                            <img src="/images/products/product5.jpeg?v=2" class="w-20 h-20 object-cover rounded-xl mt-1.5 shadow" alt="gilet">
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     </a>
                 </div>
                 <div class="hidden md:block relative h-64 lg:h-80 w-full">
-                    <img src="/images/products/product9.jpeg" class="absolute right-4 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="traditionnel">
+                    <img src="/images/products/product9.jpeg?v=2" class="absolute right-4 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="traditionnel">
                 </div>
             </div>
 
@@ -85,7 +85,7 @@
                     </a>
                 </div>
                 <div class="hidden md:block relative h-64 lg:h-80 w-full">
-                    <img src="/images/products/product6.jpeg" class="absolute right-12 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="promo">
+                    <img src="/images/products/product6.jpeg?v=2" class="absolute right-12 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="promo">
                 </div>
             </div>
 
@@ -104,7 +104,7 @@
                     </a>
                 </div>
                 <div class="hidden md:block relative h-64 lg:h-80 w-full">
-                    <img src="/images/products/product3.jpeg" class="absolute right-4 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="robes satin">
+                    <img src="/images/products/product3.jpeg?v=2" class="absolute right-4 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="robes satin">
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
                     </a>
                 </div>
                 <div class="hidden md:block relative h-64 lg:h-80 w-full">
-                    <img src="/images/products/product6.jpeg" class="absolute right-12 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="gilets">
+                    <img src="/images/products/product6.jpeg?v=2" class="absolute right-12 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="gilets">
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                     </a>
                 </div>
                 <div class="hidden md:block relative h-64 lg:h-80 w-full">
-                    <img src="/images/products/product4.jpeg" class="absolute right-4 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="ensembles">
+                    <img src="/images/products/product4.jpeg?v=2" class="absolute right-4 bottom-0 h-[90%] object-contain rounded-t-3xl border-t border-x border-white/20 shadow-2xl" alt="ensembles">
                 </div>
             </div>
 
@@ -171,7 +171,7 @@
             <!-- Category Item 1 (Robes) -->
             <a href="{{ route('store.shop') }}?category=Robes" class="flex flex-col items-center gap-3 flex-shrink-0 snap-start text-center w-24 md:w-32 group">
                 <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-orange-500 transition-all duration-300 bg-white dark:bg-gray-900 shadow-md">
-                    <img src="/images/products/product2.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Robes">
+                    <img src="/images/products/product2.jpeg?v=2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Robes">
                 </div>
                 <span class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 group-hover:text-orange-500 transition-colors truncate w-full">Robes</span>
             </a>
@@ -179,7 +179,7 @@
             <!-- Category Item 2 (Boubous) -->
             <a href="{{ route('store.shop') }}?category=Boubous" class="flex flex-col items-center gap-3 flex-shrink-0 snap-start text-center w-24 md:w-32 group">
                 <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-orange-500 transition-all duration-300 bg-white dark:bg-gray-900 shadow-md">
-                    <img src="/images/products/product1.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Boubous">
+                    <img src="/images/products/product1.jpeg?v=2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Boubous">
                 </div>
                 <span class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 group-hover:text-orange-500 transition-colors truncate w-full">Boubous</span>
             </a>
@@ -187,7 +187,7 @@
             <!-- Category Item 5 (Gilets) -->
             <a href="{{ route('store.shop') }}?category=Gilets" class="flex flex-col items-center gap-3 flex-shrink-0 snap-start text-center w-24 md:w-32 group">
                 <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-orange-500 transition-all duration-300 bg-white dark:bg-gray-900 shadow-md">
-                    <img src="/images/products/product5.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Gilets">
+                    <img src="/images/products/product5.jpeg?v=2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Gilets">
                 </div>
                 <span class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 group-hover:text-orange-500 transition-colors truncate w-full">Gilets & Vestes</span>
             </a>
@@ -195,7 +195,7 @@
             <!-- Category Item 6 (Ensembles) -->
             <a href="{{ route('store.shop') }}?category=Ensembles" class="flex flex-col items-center gap-3 flex-shrink-0 snap-start text-center w-24 md:w-32 group">
                 <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-orange-500 transition-all duration-300 bg-white dark:bg-gray-900 shadow-md">
-                    <img src="/images/products/product4.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Ensembles">
+                    <img src="/images/products/product4.jpeg?v=2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Ensembles">
                 </div>
                 <span class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 group-hover:text-orange-500 transition-colors truncate w-full">Ensembles H/F</span>
             </a>
@@ -276,7 +276,7 @@
 
                     <!-- Image with link -->
                     <a href="{{ route('store.show', $product->slug) }}" class="block overflow-hidden bg-gray-50 dark:bg-gray-950 aspect-[4/5] relative">
-                        <img src="/images/products/{{ $product->image }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
+                        <img src="/images/products/{{$product->image}}?v=2" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
                         @if($product->original_price)
                             <span class="absolute bottom-3 left-3 bg-red-500 text-white font-bold text-[9px] px-2 py-0.5 rounded-md">PROMO</span>
                         @endif
@@ -351,7 +351,7 @@
 
                     <!-- Image with link -->
                     <a href="{{ route('store.show', $product->slug) }}" class="block overflow-hidden bg-gray-50 dark:bg-gray-950 aspect-[4/5] relative">
-                        <img src="/images/products/{{ $product->image }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
+                        <img src="/images/products/{{$product->image}}?v=2" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
                         <span class="absolute top-3 left-3 bg-orange-500 text-white font-bold text-[9px] px-2.5 py-0.5 rounded-md">NEW</span>
                     </a>
 
@@ -407,7 +407,7 @@
 
                     <!-- Image with link -->
                     <a href="{{ route('store.show', $product->slug) }}" class="block overflow-hidden bg-gray-50 dark:bg-gray-950 aspect-[4/5] relative">
-                        <img src="/images/products/{{ $product->image }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
+                        <img src="/images/products/{{$product->image}}?v=2" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}">
                         @if($product->is_new)
                             <span class="absolute top-3 left-3 bg-orange-500 text-white font-bold text-[9px] px-2.5 py-0.5 rounded-md">NEW</span>
                         @elseif($product->original_price)

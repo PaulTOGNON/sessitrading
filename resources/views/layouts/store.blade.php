@@ -336,7 +336,7 @@
                                         <template x-for="item in cartItems" :key="item.id">
                                             <li x-show="item.product" class="flex py-6">
                                                 <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-55">
-                                                    <img :src="'/images/products/' + (item.product ? item.product.image : '')" :alt="item.product ? item.product.name : ''" class="h-full w-full object-cover object-center">
+                                                    <img :src="'/images/products/' + (item.product ? item.product.image : '') + '?v=2'" :alt="item.product ? item.product.name : ''" class="h-full w-full object-cover object-center">
                                                 </div>
                                                 <div class="ml-4 flex flex-1 flex-col">
                                                     <div>

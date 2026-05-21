@@ -63,7 +63,7 @@
                             <tr class="hover:bg-gray-50/30 transition-colors duration-150">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
-                                        <img src="/images/products/{{ $product->image }}" class="w-12 h-12 object-cover rounded-lg border border-gray-100 flex-shrink-0">
+                                        <img src="/images/products/{{$product->image}}?v=2" class="w-12 h-12 object-cover rounded-lg border border-gray-100 flex-shrink-0">
                                         <div class="space-y-0.5">
                                             <h4 class="font-bold text-gray-900 leading-snug">{{ $product->name }}</h4>
                                             <p class="text-xs text-gray-400 font-normal truncate max-w-xs">{{ Str::limit($product->description, 60) }}</p>
