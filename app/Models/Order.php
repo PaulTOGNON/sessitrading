@@ -16,6 +16,8 @@ class Order extends Model
         'shipping_city',
         'shipping_country',
         'phone_number',
+        'payment_status',
+        'payment_method',
     ];
 
     /**
@@ -32,5 +34,13 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    /**
+     * Get the transactions for this order.
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(FedaPayTransaction::class);
     }
 }

@@ -192,13 +192,23 @@
                                             <span>Commande <span class="text-gray-900">#ST-{{ $order->id }}</span></span>
                                             <span>Passée le <span class="text-gray-900">{{ $order->created_at->format('d M Y') }}</span></span>
                                         </div>
-                                        @if($order->status === 'Livrée' || $order->status === 'completed' || $order->status === 'delivered')
-                                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">Livrée</span>
-                                        @elseif($order->status === 'pending' || $order->status === 'En attente' || $order->status === 'En cours')
-                                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">En cours</span>
-                                        @else
-                                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">{{ $order->status }}</span>
-                                        @endif
+                                        <div class="flex gap-2 items-center">
+                                            @if(($order->payment_status ?? 'Non payé') === 'Payé')
+                                                <span class="bg-emerald-50 border border-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold">Payé</span>
+                                            @elseif(($order->payment_status ?? 'Non payé') === 'Échoué')
+                                                <span class="bg-red-50 border border-red-100 text-red-700 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold">Échoué</span>
+                                            @else
+                                                <span class="bg-gray-50 border border-gray-200 text-gray-600 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold">Non payé</span>
+                                            @endif
+
+                                            @if($order->status === 'Livrée' || $order->status === 'completed' || $order->status === 'delivered')
+                                                <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">Livrée</span>
+                                            @elseif($order->status === 'pending' || $order->status === 'En attente' || $order->status === 'En cours')
+                                                <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">En cours</span>
+                                            @else
+                                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">{{ $order->status }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                     
                                     <div class="space-y-4">
@@ -231,8 +241,16 @@
                                             <p class="text-xs text-gray-700 mt-0.5">{{ $order->shipping_address }}, {{ $order->shipping_city }}, {{ $order->shipping_country }}</p>
                                         </div>
                                         <div class="w-full md:w-auto flex items-center justify-between md:justify-end gap-6 font-bold">
+                                            @php
+                                                $fedaPayEnabled = app(\App\Services\FedaPayService::class)->isEnabled();
+                                            @endphp
+                                            @if($fedaPayEnabled && ($order->payment_status ?? 'Non payé') !== 'Payé' && !in_array($order->status, ['cancelled', 'Annulée']))
+                                                <a href="{{ route('checkout.pay', ['order' => $order->id]) }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-4.5 py-2.5 rounded-xl transition-all shadow-sm">
+                                                    Payer maintenant (Mobile Money)
+                                                </a>
+                                            @endif
                                             <div class="text-left md:text-right">
-                                                <p class="text-xs font-bold text-gray-400 uppercase">Total payé</p>
+                                                <p class="text-xs font-bold text-gray-400 uppercase font-semibold">Montant total</p>
                                                 <p class="text-base font-black text-gray-950 mt-0.5">{{ number_format($order->total_amount, 0, ',', ' ') }} FCFA</p>
                                             </div>
                                         </div>

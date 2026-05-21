@@ -61,6 +61,11 @@ class OrderController extends Controller
 
             DB::commit();
 
+            $fedaPayService = app(\App\Services\FedaPayService::class);
+            if ($fedaPayService->isEnabled()) {
+                return redirect()->route('checkout.pay', ['order' => $order->id]);
+            }
+
             return redirect()->route('dashboard', ['tab' => 'orders'])
                 ->with('success', 'Votre commande a été passée avec succès !');
 

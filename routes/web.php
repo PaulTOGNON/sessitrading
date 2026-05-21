@@ -2,7 +2,15 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\PaymentSettingController;
+use App\Http\Controllers\Admin\TransactionController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +42,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 // Dynamic E-Commerce Routes
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\OrderController;
-
 Route::get('/api/store-data', function () {
     return response()->json([
         'cart' => \App\Services\CartService::getCart(),
@@ -52,6 +56,11 @@ Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remov
 Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 Route::post('/orders/place', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
 
+// FedaPay Payment Routes
+Route::get('/checkout/pay/{order}', [PaymentController::class, 'pay'])->name('checkout.pay')->middleware('auth');
+Route::get('/checkout/callback/{order}', [PaymentController::class, 'callback'])->name('checkout.callback');
+Route::post('/fedapay/webhook', [PaymentController::class, 'webhook'])->name('checkout.webhook');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -59,8 +68,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Panel Routes
-use App\Http\Controllers\Admin\AdminController;
-
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
@@ -80,6 +87,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
     Route::post('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
     Route::delete('/products/{product}', [AdminController::class, 'destroyProduct'])->name('products.destroy');
+
+    // FedaPay Configuration & Transactions
+    Route::get('/payment-settings', [PaymentSettingController::class, 'index'])->name('payment-settings.index');
+    Route::post('/payment-settings', [PaymentSettingController::class, 'update'])->name('payment-settings.update');
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 });
 
 require __DIR__.'/auth.php';
