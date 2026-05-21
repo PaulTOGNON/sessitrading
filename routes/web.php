@@ -27,6 +27,12 @@ Route::get('/', [ProductController::class, 'index'])->name('store.index');
 Route::get('/products', [ProductController::class, 'shop'])->name('store.shop');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('store.show');
 
+// Informational & Legal Pages
+Route::view('/politique-de-retour', 'pages.retour')->name('store.retour');
+Route::view('/mentions-legales', 'pages.mentions')->name('store.mentions');
+Route::view('/cgv', 'pages.cgv')->name('store.cgv');
+Route::view('/donnees-privees', 'pages.donnees')->name('store.donnees');
+
 Route::get('/dashboard', function () {
     $user = Auth::user();
     if ($user && $user->is_admin) {

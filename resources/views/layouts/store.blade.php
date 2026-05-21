@@ -157,19 +157,57 @@
                     <a href="{{ route('store.shop') }}" class="hover:text-orange-500 transition-colors">Robes Élégantes</a>
                     <a href="{{ route('store.shop') }}" class="hover:text-orange-500 transition-colors">Ensembles Estivaux</a>
                     <a href="{{ route('store.shop') }}" class="hover:text-orange-500 transition-colors">Gilets & Vestes</a>
-                    <a href="{{ route('store.shop') }}" class="hover:text-orange-500 transition-colors">Baskets & Sneakers</a>
                 </div>
             </div>
 
             <!-- Links -->
             <div class="flex flex-col gap-4">
                 <h4 class="text-sm font-bold text-gray-955 dark:text-white uppercase tracking-wider">Aide & Contact</h4>
-                <div class="flex flex-col gap-2 text-xs">
-                    <p class="leading-relaxed">📍 Boutique Sessitrading, Cotonou, Bénin</p>
-                    <p class="leading-relaxed">📞 +229 90 00 00 00</p>
-                    <p class="leading-relaxed">✉️ contact@sessitrading.com</p>
-                    <a href="#" class="hover:text-orange-500 transition-colors mt-2">Politique de retour</a>
-                </div>
+                <ul class="flex flex-col gap-3.5 text-xs text-gray-600 dark:text-gray-400">
+                    <li class="flex items-start gap-2.5">
+                        <svg class="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
+                        </svg>
+                        <span class="leading-relaxed">Boutique Sessitrading, Cotonou, Bénin</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.14-4.118-6.944-6.944l1.293-.97c.362-.272.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+                        </svg>
+                        <a href="tel:+2290195076635" class="hover:text-orange-500 transition-colors leading-relaxed font-semibold">+229 0195076635</a>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-emerald-500 flex-shrink-0 fill-current" viewBox="0 0 24 24">
+                            <path d="M12.012 2C6.48 2 2 6.48 2 12.012c0 1.767.46 3.427 1.266 4.9L2 22l5.226-1.372a9.96 9.96 0 0 0 4.786 1.22c5.532 0 10.012-4.48 10.012-10.012C22.024 6.48 17.544 2 12.012 2zm6.59 14.285c-.27.76-1.35 1.485-2.22 1.69-.6.14-1.38.25-3.95-.81-3.287-1.353-5.41-4.704-5.575-4.928-.166-.223-1.35-1.8-1.35-3.434 0-1.634.85-2.438 1.15-2.772.3-.334.66-.417.88-.417h.624c.2 0 .468-.078.73.555.27.653.924 2.26.996 2.413.072.152.12.33.02.534-.1.2-.15.33-.3.5-.15.166-.316.372-.45.5-.153.15-.31.312-.134.615.176.3.784 1.292 1.68 2.088.9.8 1.657 1.05 1.89 1.162.23.11.367.09.5-.06.136-.153.585-.68.74-1.007.16-.327.312-.27.53-.19.22.08 1.402.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.21 1.34z"/>
+                        </svg>
+                        <a href="https://wa.me/2290195076635" target="_blank" rel="noopener noreferrer" class="hover:text-orange-500 transition-colors leading-relaxed font-semibold">WhatsApp</a>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H4.5a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5H4.5a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+                        </svg>
+                        <a href="mailto:contact@sessitrading.com" class="hover:text-orange-500 transition-colors leading-relaxed">contact@sessitrading.com</a>
+                    </li>
+                    <li class="flex items-center gap-2.5 text-gray-500 dark:text-gray-500">
+                        <svg class="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                        </svg>
+                        <span class="leading-relaxed">Support Client H24 / J7</span>
+                    </li>
+                    <li class="flex items-center gap-2.5 text-gray-500 dark:text-gray-500">
+                        <svg class="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125a1.125 1.125 0 0 0 1.125-1.125V9.75M8.25 18.75a1.5 1.5 0 0 1-3 0M15.75 18.75a1.5 1.5 0 0 1-3 0m3 0h1.5a1.5 1.5 0 0 0 1.5-1.5V14.25m-18-10.5h11.25a1.125 1.125 0 0 1 1.125 1.125v9.75M8.25 13.5h7.5"/>
+                        </svg>
+                        <span class="leading-relaxed">Livraison Bénin & International</span>
+                    </li>
+                    <li class="flex items-center gap-2.5 pt-1.5 border-t border-gray-100 dark:border-gray-800">
+                        <svg class="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+                        </svg>
+                        <a href="{{ route('store.retour') }}" class="hover:text-orange-500 transition-colors leading-relaxed font-bold">Politique de retour</a>
+                    </li>
+                </ul>
             </div>
 
             <!-- Newsletter -->
@@ -187,10 +225,10 @@
 
         <div class="max-w-7xl mx-auto px-4 lg:px-8 border-t border-gray-150 dark:border-gray-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-600">
             <p>&copy; 2026 Sessitrading. Tous droits réservés.</p>
-            <div class="flex gap-4 mt-4 md:mt-0">
-                <a href="#" class="hover:text-orange-500">Mentions légales</a>
-                <a href="#" class="hover:text-orange-500">CGV</a>
-                <a href="#" class="hover:text-orange-500">Données privées</a>
+            <div class="flex gap-4 mt-4 md:mt-0 text-gray-650 dark:text-gray-450">
+                <a href="{{ route('store.mentions') }}" class="hover:text-orange-500 transition-colors">Mentions légales</a>
+                <a href="{{ route('store.cgv') }}" class="hover:text-orange-500 transition-colors">CGV</a>
+                <a href="{{ route('store.donnees') }}" class="hover:text-orange-500 transition-colors">Données privées</a>
             </div>
         </div>
     </footer>
