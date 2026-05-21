@@ -56,7 +56,7 @@
                 <a href="{{ Auth::check() ? route('dashboard', ['tab' => 'favorites']) : route('login') }}" class="relative p-2 text-gray-500 hover:text-orange-500 hover:scale-105 transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     <template x-if="wishlistCount > 0">
-                        <span class="absolute top-0.5 right-0.5 w-4.5 h-4.5 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="wishlistCount"></span>
+                        <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="wishlistCount"></span>
                     </template>
                 </a>
 
@@ -64,7 +64,7 @@
                 <button @click="showCart = !showCart" class="relative p-2 text-gray-500 hover:text-orange-500 hover:scale-105 transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     <template x-if="cartCount > 0">
-                        <span class="absolute top-0.5 right-0.5 w-4.5 h-4.5 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="cartCount"></span>
+                        <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="cartCount"></span>
                     </template>
                 </button>
 
@@ -265,29 +265,29 @@
                                     <ul role="list" class="-my-6 divide-y divide-gray-100 dark:divide-gray-800">
                                         <!-- Dynamic items list -->
                                         <template x-for="item in cartItems" :key="item.id">
-                                            <li class="flex py-6">
+                                            <li x-show="item.product" class="flex py-6">
                                                 <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-55">
-                                                    <img :src="'/images/products/' + item.product.image" :alt="item.product.name" class="h-full w-full object-cover object-center">
+                                                    <img :src="'/images/products/' + (item.product ? item.product.image : '')" :alt="item.product ? item.product.name : ''" class="h-full w-full object-cover object-center">
                                                 </div>
                                                 <div class="ml-4 flex flex-1 flex-col">
                                                     <div>
                                                         <div class="flex justify-between text-sm font-bold text-gray-900 dark:text-white">
-                                                            <h3><a :href="'/products/' + item.product.slug" x-text="item.product.name" class="hover:text-orange-500 transition-colors"></a></h3>
-                                                            <p class="ml-4 text-orange-500 font-extrabold" x-text="numberFormat(item.product.price) + ' F'"></p>
+                                                            <h3><a :href="'/products/' + (item.product ? item.product.slug : '')" x-text="item.product ? item.product.name : ''" class="hover:text-orange-500 transition-colors"></a></h3>
+                                                            <p class="ml-4 text-orange-500 font-extrabold" x-text="item.product ? numberFormat(item.product.price) + ' F' : ''"></p>
                                                         </div>
-                                                        <p class="mt-1 text-xs text-gray-400" x-text="'Catégorie: ' + item.product.category"></p>
+                                                        <p class="mt-1 text-xs text-gray-400" x-text="'Catégorie: ' + (item.product ? item.product.category : '')"></p>
                                                     </div>
                                                     <div class="flex flex-1 items-end justify-between text-xs">
                                                         <div class="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-xl">
                                                             <button type="button" @click="updateCartQty(item.id, -1)" class="w-4 h-4 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400">&minus;</button>
-                                                            <span class="font-extrabold text-gray-950 dark:text-white px-1.5" x-text="item.quantity"></span>
+                                                            <span class="font-extrabold text-gray-955 dark:text-white px-1.5" x-text="item.quantity"></span>
                                                             <button type="button" @click="updateCartQty(item.id, 1)" class="w-4 h-4 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400">&plus;</button>
                                                         </div>
                                                         <button type="button" @click="removeFromCart(item.id)" class="font-extrabold text-red-500 hover:text-red-600 transition-colors">Supprimer</button>
                                                     </div>
                                                 </div>
                                             </li>
-                                        </template>
+                                        </template>                </template>
 
                                         <!-- Empty Cart Message -->
                                         <div x-show="cartItems.length === 0" class="py-12 text-center text-gray-400 dark:text-gray-500">
@@ -422,7 +422,7 @@
                 },
 
                 get cartTotal() {
-                    return this.cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+                    return this.cartItems.reduce((sum, item) => sum + ((item.product ? item.product.price : 0) * item.quantity), 0);
                 },
 
                 isFavorite(productId) {

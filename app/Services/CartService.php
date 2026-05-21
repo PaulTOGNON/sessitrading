@@ -14,14 +14,20 @@ class CartService
     public static function getCart(): array
     {
         if (Auth::check()) {
-            return Auth::user()->cartItems()->get()->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'product_id' => $item->product_id,
-                    'quantity' => $item->quantity,
-                    'product' => $item->product,
-                ];
-            })->toArray();
+            return Auth::user()->cartItems()->get()
+                ->filter(function ($item) {
+                    return !is_null($item->product);
+                })
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                        'product' => $item->product,
+                    ];
+                })
+                ->values()
+                ->toArray();
         }
 
         $sessionCart = session()->get('cart', []);

@@ -178,8 +178,9 @@
                                 Mettre à jour mon adresse
                             </button>
                         </div>
+                    </div>
 
-                                 <!-- TAB 2: ORDERS -->
+                    <!-- TAB 2: ORDERS -->
                     <div x-show="tab === 'orders'" class="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm space-y-6">
                         <h3 class="text-lg font-black text-gray-950 tracking-tight">Historique des commandes</h3>
                         
@@ -278,19 +279,19 @@
                         <!-- Favorites grid -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <template x-for="fav in favorites" :key="fav.id">
-                                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all duration-300">
+                                <div x-show="fav.product" class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all duration-300">
                                     <div class="relative h-64 bg-gray-100">
-                                        <img :src="'/images/products/' + fav.product.image" class="w-full h-full object-cover" :alt="fav.product.name">
+                                        <img :src="'/images/products/' + (fav.product ? fav.product.image : '')" class="w-full h-full object-cover" :alt="fav.product ? fav.product.name : ''">
                                         <button @click="toggleFavorite(fav.product_id)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-red-500 shadow-md">
                                             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                         </button>
                                     </div>
                                     <div class="p-4 flex flex-col gap-1.5">
-                                        <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase" x-text="fav.product.category"></span>
-                                        <h4 class="text-sm font-bold text-gray-955 truncate" x-text="fav.product.name"></h4>
+                                        <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase" x-text="fav.product ? fav.product.category : ''"></span>
+                                        <h4 class="text-sm font-bold text-gray-955 truncate" x-text="fav.product ? fav.product.name : ''"></h4>
                                         <div class="flex items-center justify-between mt-2">
-                                            <span class="text-sm font-black text-orange-500" x-text="numberFormat(fav.product.price) + ' FCFA'"></span>
-                                            <a :href="'/products/' + fav.product.slug" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-[10px] px-3.5 py-1.5 rounded-full transition-all">
+                                            <span class="text-sm font-black text-orange-500" x-text="fav.product ? numberFormat(fav.product.price) + ' FCFA' : ''"></span>
+                                            <a :href="'/products/' + (fav.product ? fav.product.slug : '')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-[10px] px-3.5 py-1.5 rounded-full transition-all">
                                                 Acheter
                                             </a>
                                         </div>
@@ -318,15 +319,15 @@
                         <!-- List of Cart Items -->
                         <div class="divide-y divide-gray-100">
                             <template x-for="item in cartItems" :key="item.id">
-                                <div class="py-4 flex justify-between items-center gap-6">
+                                <div x-show="item.product" class="py-4 flex justify-between items-center gap-6">
                                     <div class="flex items-center gap-4">
                                         <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
-                                            <img :src="'/images/products/' + item.product.image" class="w-full h-full object-cover" :alt="item.product.name">
+                                            <img :src="'/images/products/' + (item.product ? item.product.image : '')" class="w-full h-full object-cover" :alt="item.product ? item.product.name : ''">
                                         </div>
                                         <div>
-                                            <h4 class="text-sm font-bold text-gray-955" x-text="item.product.name"></h4>
-                                            <p class="text-xs text-gray-500 mt-0.5" x-text="item.product.category"></p>
-                                            <span class="text-xs text-orange-500 font-extrabold block mt-1" x-text="numberFormat(item.product.price) + ' FCFA'"></span>
+                                            <h4 class="text-sm font-bold text-gray-955" x-text="item.product ? item.product.name : ''"></h4>
+                                            <p class="text-xs text-gray-500 mt-0.5" x-text="item.product ? item.product.category : ''"></p>
+                                            <span class="text-xs text-orange-500 font-extrabold block mt-1" x-text="item.product ? numberFormat(item.product.price) + ' FCFA' : ''"></span>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-4 text-sm">

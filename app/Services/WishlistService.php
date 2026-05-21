@@ -14,13 +14,19 @@ class WishlistService
     public static function getFavorites(): array
     {
         if (Auth::check()) {
-            return Auth::user()->favorites()->get()->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'product_id' => $item->product_id,
-                    'product' => $item->product,
-                ];
-            })->toArray();
+            return Auth::user()->favorites()->get()
+                ->filter(function ($item) {
+                    return !is_null($item->product);
+                })
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'product_id' => $item->product_id,
+                        'product' => $item->product,
+                    ];
+                })
+                ->values()
+                ->toArray();
         }
 
         $sessionFavorites = session()->get('favorites', []);
