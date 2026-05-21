@@ -268,8 +268,10 @@
                 <!-- Product Card Component -->
                 <div class="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-850 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
                     <!-- Wishlist button -->
-                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center text-gray-400 hover:text-orange-500 transition-colors shadow" @click="wishlistCount++">
-                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center transition-colors shadow"
+                        :class="isFavorite({{ $product->id }}) ? 'text-red-500' : 'text-gray-450 hover:text-orange-500'"
+                        @click="toggleFavorite({{ $product->id }})">
+                        <svg class="w-4.5 h-4.5" :fill="isFavorite({{ $product->id }}) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     </button>
 
                     <!-- Image with link -->
@@ -295,13 +297,16 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col mt-1">
-                            <div class="flex items-baseline gap-2">
-                                <span class="text-sm md:text-base font-black text-orange-500">{{ $product->formatted_price }}</span>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-xs md:text-sm font-black text-orange-500">{{ $product->formatted_price }}</span>
                                 @if($product->original_price)
-                                    <span class="text-xs text-gray-400 line-through font-medium">{{ $product->formatted_original_price }}</span>
+                                    <span class="text-[10px] text-gray-450 line-through font-medium">{{ $product->formatted_original_price }}</span>
                                 @endif
                             </div>
+                            <button @click="addToCart({{ $product->id }})" class="p-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl transition-colors shadow-md shadow-orange-500/10">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -338,8 +343,10 @@
                 <!-- Product Card Component -->
                 <div class="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-850 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
                     <!-- Wishlist button -->
-                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center text-gray-400 hover:text-orange-500 transition-colors shadow" @click="wishlistCount++">
-                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center transition-colors shadow"
+                        :class="isFavorite({{ $product->id }}) ? 'text-red-500' : 'text-gray-450 hover:text-orange-500'"
+                        @click="toggleFavorite({{ $product->id }})">
+                        <svg class="w-4.5 h-4.5" :fill="isFavorite({{ $product->id }}) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     </button>
 
                     <!-- Image with link -->
@@ -363,13 +370,16 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col mt-1">
-                            <div class="flex items-baseline gap-2">
-                                <span class="text-sm md:text-base font-black text-orange-500">{{ $product->formatted_price }}</span>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-xs md:text-sm font-black text-orange-500">{{ $product->formatted_price }}</span>
                                 @if($product->original_price)
-                                    <span class="text-xs text-gray-400 line-through font-medium">{{ $product->formatted_original_price }}</span>
+                                    <span class="text-[10px] text-gray-455 line-through font-medium">{{ $product->formatted_original_price }}</span>
                                 @endif
                             </div>
+                            <button @click="addToCart({{ $product->id }})" class="p-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl transition-colors shadow-md shadow-orange-500/10">
+                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -389,8 +399,10 @@
                 <!-- Product Card Component -->
                 <div class="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-850 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
                     <!-- Wishlist button -->
-                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center text-gray-400 hover:text-orange-500 transition-colors shadow" @click="wishlistCount++">
-                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center transition-colors shadow"
+                        :class="isFavorite({{ $product->id }}) ? 'text-red-500' : 'text-gray-450 hover:text-orange-500'"
+                        @click="toggleFavorite({{ $product->id }})">
+                        <svg class="w-4.5 h-4.5" :fill="isFavorite({{ $product->id }}) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     </button>
 
                     <!-- Image with link -->
@@ -418,13 +430,16 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col mt-1">
-                            <div class="flex items-baseline gap-2">
-                                <span class="text-sm md:text-base font-black text-orange-500">{{ $product->formatted_price }}</span>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-xs md:text-sm font-black text-orange-500">{{ $product->formatted_price }}</span>
                                 @if($product->original_price)
-                                    <span class="text-xs text-gray-400 line-through font-medium">{{ $product->formatted_original_price }}</span>
+                                    <span class="text-[10px] text-gray-450 line-through font-medium">{{ $product->formatted_original_price }}</span>
                                 @endif
                             </div>
+                            <button @click="addToCart({{ $product->id }})" class="p-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl transition-colors shadow-md shadow-orange-500/10">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,7 @@
         }
     </style>
 </head>
-<body class="bg-white text-gray-900 min-h-screen flex flex-col antialiased" x-data="{ activeTab: 'home', showCart: false, wishlistCount: 3, cartCount: 2 }">
+<body class="bg-white text-gray-900 min-h-screen flex flex-col antialiased" x-data="storeApp">
 
     <!-- TOP HEADER -->
     <header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-all duration-300">
@@ -70,13 +70,19 @@
                 </div>
 
                 <!-- Wishlist -->
-                <a href="#" class="relative p-2 text-gray-500 hover:text-orange-500 hover:scale-105 transition-all">
+                <a href="{{ Auth::check() ? route('dashboard', ['tab' => 'favorites']) : route('login') }}" class="relative p-2 text-gray-500 hover:text-orange-500 hover:scale-105 transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <template x-if="wishlistCount > 0">
+                        <span class="absolute top-0.5 right-0.5 w-4.5 h-4.5 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="wishlistCount"></span>
+                    </template>
                 </a>
 
                 <!-- Cart -->
                 <button @click="showCart = !showCart" class="relative p-2 text-gray-500 hover:text-orange-500 hover:scale-105 transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <template x-if="cartCount > 0">
+                        <span class="absolute top-0.5 right-0.5 w-4.5 h-4.5 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="cartCount"></span>
+                    </template>
                 </button>
 
                 <!-- Profile / Auth Links -->
@@ -135,8 +141,11 @@
                 </div>
 
                 <!-- Heart Icon (Wishlist) matching mockup yellow heart -->
-                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-100 dark:border-gray-800 hover:bg-orange-50 dark:hover:bg-orange-950/20 text-orange-500">
+                <a href="{{ Auth::check() ? route('dashboard', ['tab' => 'favorites']) : route('login') }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-100 dark:border-gray-800 hover:bg-orange-50 dark:hover:bg-orange-950/20 text-orange-500 relative">
                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    <template x-if="wishlistCount > 0">
+                        <span class="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="wishlistCount"></span>
+                    </template>
                 </a>
             </div>
         </div>
@@ -246,6 +255,9 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
             </span>
             <span class="text-[9px] font-bold tracking-tight" :class="activeTab === 'panier' ? 'text-orange-500' : 'text-gray-400 dark:text-gray-500'">Panier</span>
+            <template x-if="cartCount > 0">
+                <span class="absolute top-1 right-2 w-4 h-4 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white" x-text="cartCount"></span>
+            </template>
         </a>
 
         <!-- Profile Tab -->
@@ -278,58 +290,52 @@
                             <div class="mt-8">
                                 <div class="flow-root">
                                     <ul role="list" class="-my-6 divide-y divide-gray-100 dark:divide-gray-800">
-                                        <!-- Item 1 -->
-                                        <li class="flex py-6">
-                                            <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-100">
-                                                <img src="/images/products/product1.jpeg" alt="Boubou oversized" class="h-full w-full object-cover object-center">
-                                            </div>
-                                            <div class="ml-4 flex flex-1 flex-col">
-                                                <div>
-                                                    <div class="flex justify-between text-sm font-bold text-gray-900 dark:text-white">
-                                                        <h3><a href="#">Boubou oversized</a></h3>
-                                                        <p class="ml-4 text-orange-500">15 000 F</p>
+                                        <!-- Dynamic items list -->
+                                        <template x-for="item in cartItems" :key="item.id">
+                                            <li class="flex py-6">
+                                                <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-55">
+                                                    <img :src="'/images/products/' + item.product.image" :alt="item.product.name" class="h-full w-full object-cover object-center">
+                                                </div>
+                                                <div class="ml-4 flex flex-1 flex-col">
+                                                    <div>
+                                                        <div class="flex justify-between text-sm font-bold text-gray-900 dark:text-white">
+                                                            <h3><a :href="'/products/' + item.product.slug" x-text="item.product.name" class="hover:text-orange-500 transition-colors"></a></h3>
+                                                            <p class="ml-4 text-orange-500 font-extrabold" x-text="numberFormat(item.product.price) + ' F'"></p>
+                                                        </div>
+                                                        <p class="mt-1 text-xs text-gray-400" x-text="'Catégorie: ' + item.product.category"></p>
                                                     </div>
-                                                    <p class="mt-1 text-xs text-gray-400">Catégorie: Boubous</p>
-                                                </div>
-                                                <div class="flex flex-1 items-end justify-between text-xs">
-                                                    <p class="text-gray-400">Quantité: 1</p>
-                                                    <button type="button" class="font-semibold text-red-500 hover:text-red-600">Supprimer</button>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- Item 2 -->
-                                        <li class="flex py-6">
-                                            <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-100">
-                                                <img src="/images/products/product3.jpeg" alt="Chemise chic" class="h-full w-full object-cover object-center">
-                                            </div>
-                                            <div class="ml-4 flex flex-1 flex-col">
-                                                <div>
-                                                    <div class="flex justify-between text-sm font-bold text-gray-900 dark:text-white">
-                                                        <h3><a href="#">Chemise chic</a></h3>
-                                                        <p class="ml-4 text-orange-500">12 000 F</p>
+                                                    <div class="flex flex-1 items-end justify-between text-xs">
+                                                        <div class="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-xl">
+                                                            <button type="button" @click="updateCartQty(item.id, -1)" class="w-4 h-4 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400">&minus;</button>
+                                                            <span class="font-extrabold text-gray-950 dark:text-white px-1.5" x-text="item.quantity"></span>
+                                                            <button type="button" @click="updateCartQty(item.id, 1)" class="w-4 h-4 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400">&plus;</button>
+                                                        </div>
+                                                        <button type="button" @click="removeFromCart(item.id)" class="font-extrabold text-red-500 hover:text-red-600 transition-colors">Supprimer</button>
                                                     </div>
-                                                    <p class="mt-1 text-xs text-gray-400">Catégorie: Chemises</p>
                                                 </div>
-                                                <div class="flex flex-1 items-end justify-between text-xs">
-                                                    <p class="text-gray-400">Quantité: 1</p>
-                                                    <button type="button" class="font-semibold text-red-500 hover:text-red-600">Supprimer</button>
-                                                </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        </template>
+
+                                        <!-- Empty Cart Message -->
+                                        <div x-show="cartItems.length === 0" class="py-12 text-center text-gray-400 dark:text-gray-500">
+                                            <svg class="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                            <p class="text-sm font-extrabold">Votre panier est vide.</p>
+                                            <button @click="showCart = false" class="text-xs text-orange-500 hover:text-orange-600 font-bold mt-2">Découvrir la boutique &rarr;</button>
+                                        </div>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Footer Cart Section -->
-                        <div class="border-t border-gray-100 dark:border-gray-800 px-6 py-6 bg-gray-50/50 dark:bg-gray-900/30">
+                        <div x-show="cartItems.length > 0" class="border-t border-gray-100 dark:border-gray-800 px-6 py-6 bg-gray-50/50 dark:bg-gray-900/30">
                             <div class="flex justify-between text-base font-bold text-gray-900 dark:text-white">
                                 <p>Sous-total</p>
-                                <p class="text-orange-500">27 000 F</p>
+                                <p class="text-orange-500 font-black text-lg" x-text="numberFormat(cartTotal) + ' F'"></p>
                             </div>
                             <p class="mt-1 text-xs text-gray-400">Frais de livraison calculés lors de la commande.</p>
                             <div class="mt-6">
-                                <a href="#" class="flex items-center justify-center rounded-xl border border-transparent bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/20 hover:bg-orange-600 transition-colors">Passer la commande</a>
+                                <a href="{{ route('dashboard', ['tab' => 'cart']) }}" class="flex items-center justify-center rounded-xl border border-transparent bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/20 hover:bg-orange-600 transition-colors">Passer la commande</a>
                             </div>
                             <div class="mt-4 flex justify-center text-center text-xs text-gray-400">
                                 <p>
@@ -347,5 +353,197 @@
         </div>
     </div>
 
+    <!-- Toast notifications structure -->
+    <div x-data="window.toastStore || { toasts: [] }" class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 max-w-sm pointer-events-none">
+        <template x-for="toast in toasts" :key="toast.id">
+            <div x-show="toast.show" 
+                 x-transition:enter="transition ease-out duration-300 transform"
+                 x-transition:enter-start="opacity-0 translate-y-[-20px] scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-in duration-200 transform"
+                 x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-[-20px] scale-95"
+                 class="pointer-events-auto bg-white border border-gray-100 shadow-2xl shadow-orange-500/10 p-4 rounded-2xl flex items-center gap-3.5"
+            >
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                     :class="toast.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-orange-50 text-orange-600'">
+                    <template x-if="toast.type === 'success'">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </template>
+                    <template x-if="toast.type !== 'success'">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </template>
+                </div>
+                <div class="flex-grow">
+                    <p class="text-xs text-gray-400 font-bold" x-text="toast.title"></p>
+                    <p class="text-sm text-gray-950 font-extrabold mt-0.5" x-text="toast.message"></p>
+                </div>
+                <button @click="window.toastStore.remove(toast.id)" class="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </template>
+    </div>
+
+    <!-- Alpine E-Commerce Global Store Script -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            // 1. Toast Notification Store
+            window.toastStore = {
+                toasts: [],
+                add(type, message, title = 'Sessitrading') {
+                    const id = Date.now() + Math.random().toString(36).substr(2, 9);
+                    this.toasts.push({ id, type, message, title, show: true });
+                    setTimeout(() => this.remove(id), 4000);
+                },
+                remove(id) {
+                    const index = this.toasts.findIndex(t => t.id === id);
+                    if (index !== -1) {
+                        this.toasts[index].show = false;
+                        setTimeout(() => {
+                            this.toasts = this.toasts.filter(t => t.id !== id);
+                        }, 300);
+                    }
+                }
+            };
+            
+            Alpine.store('toastStore', window.toastStore);
+
+            // 2. Global E-Commerce Store
+            Alpine.data('storeApp', () => ({
+                activeTab: 'home',
+                showCart: false,
+                cartItems: [],
+                favorites: [],
+                loading: false,
+
+                async init() {
+                    await this.fetchData();
+                    
+                    // Allow external triggers to sync active tab or refetch
+                    window.addEventListener('update-cart-total', () => this.fetchData());
+                },
+
+                async fetchData() {
+                    this.loading = true;
+                    try {
+                        let r = await fetch('/api/store-data');
+                        if (r.ok) {
+                            let data = await r.json();
+                            this.cartItems = data.cart || [];
+                            this.favorites = data.favorites || [];
+                        }
+                    } catch(e) {
+                        console.error('Error fetching cart/wishlist:', e);
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
+                get cartCount() {
+                    return this.cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                },
+
+                get wishlistCount() {
+                    return this.favorites.length;
+                },
+
+                get cartTotal() {
+                    return this.cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+                },
+
+                isFavorite(productId) {
+                    return this.favorites.some(f => f.product_id == productId);
+                },
+
+                async toggleFavorite(productId) {
+                    try {
+                        let r = await fetch('/favorites/toggle', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ product_id: productId })
+                        });
+                        if (r.ok) {
+                            let res = await r.json();
+                            this.favorites = res.favorites;
+                            window.toastStore.add(res.status === 'added' ? 'success' : 'info', res.message, 'Favoris');
+                            window.dispatchEvent(new CustomEvent('favorites-updated', { detail: res.favorites }));
+                        }
+                    } catch(e) {
+                        console.error('Error toggling favorite:', e);
+                    }
+                },
+
+                async addToCart(productId, quantity = 1) {
+                    try {
+                        let r = await fetch('/cart/add', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ product_id: productId, quantity: quantity })
+                        });
+                        if (r.ok) {
+                            let res = await r.json();
+                            this.cartItems = res.cart;
+                            window.toastStore.add('success', res.message, 'Panier');
+                            window.dispatchEvent(new CustomEvent('cart-updated', { detail: res.cart }));
+                        }
+                    } catch(e) {
+                        console.error('Error adding to cart:', e);
+                    }
+                },
+
+                async updateCartQty(itemId, change) {
+                    try {
+                        let r = await fetch('/cart/update', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ item_id: itemId, change: change })
+                        });
+                        if (r.ok) {
+                            let res = await r.json();
+                            this.cartItems = res.cart;
+                            window.dispatchEvent(new CustomEvent('cart-updated', { detail: res.cart }));
+                        }
+                    } catch(e) {
+                        console.error('Error updating quantity:', e);
+                    }
+                },
+
+                async removeFromCart(itemId) {
+                    try {
+                        let r = await fetch('/cart/remove', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ item_id: itemId })
+                        });
+                        if (r.ok) {
+                            let res = await r.json();
+                            this.cartItems = res.cart;
+                            window.toastStore.add('success', 'Produit retiré du panier.', 'Panier');
+                            window.dispatchEvent(new CustomEvent('cart-updated', { detail: res.cart }));
+                        }
+                    } catch(e) {
+                        console.error('Error removing item:', e);
+                    }
+                },
+
+                numberFormat(number) {
+                    return new Intl.NumberFormat('fr-FR').format(number);
+                }
+            }));
+        });
+    </script>
 </body>
 </html>

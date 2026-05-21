@@ -113,8 +113,10 @@
                             <!-- Product Card Component -->
                             <div class="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-850 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
                                 <!-- Wishlist button -->
-                                <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center text-gray-400 hover:text-orange-500 transition-colors shadow" @click="wishlistCount++">
-                                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center transition-colors shadow"
+                                    :class="isFavorite({{ $product->id }}) ? 'text-red-500' : 'text-gray-450 hover:text-orange-500'"
+                                    @click="toggleFavorite({{ $product->id }})">
+                                    <svg class="w-4.5 h-4.5" :fill="isFavorite({{ $product->id }}) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                                 </button>
 
                                 <!-- Image with link -->
@@ -151,7 +153,7 @@
                                         </div>
 
                                         <!-- Quick add to cart button -->
-                                        <button class="w-full bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 hover:bg-orange-500 hover:text-white transition-all duration-300 font-bold text-xs py-2 rounded-xl flex items-center justify-center gap-1.5" @click="cartCount++; alert('Produit ajouté au panier !')">
+                                        <button class="w-full bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 hover:bg-orange-500 hover:text-white transition-all duration-300 font-bold text-xs py-2 rounded-xl flex items-center justify-center gap-1.5" @click="addToCart({{ $product->id }})">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                                             Ajouter au Panier
                                         </button>

@@ -109,9 +109,16 @@
                     </div>
 
                     <!-- Add to cart -->
-                    <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm h-12 px-8 rounded-xl flex-grow flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 active:scale-[0.99] transition-all" @click="cartCount = cartCount + quantity; wishlistCount++; alert('Produit ajouté au panier !')">
+                    <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm h-12 px-8 rounded-xl flex-grow flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 active:scale-[0.99] transition-all" @click="addToCart({{ $product->id }}, quantity)">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                         Ajouter au Panier
+                    </button>
+
+                    <!-- Wishlist toggle -->
+                    <button class="w-12 h-12 rounded-xl border flex items-center justify-center transition-colors shadow-sm"
+                        :class="isFavorite({{ $product->id }}) ? 'border-red-500 text-red-500 bg-red-50/50' : 'border-gray-205 text-gray-400 hover:text-orange-500 hover:border-orange-550'"
+                        @click="toggleFavorite({{ $product->id }})">
+                        <svg class="w-5 h-5" :fill="isFavorite({{ $product->id }}) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     </button>
                 </div>
 
@@ -174,8 +181,10 @@
                 <!-- Product Card Component -->
                 <div class="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-850 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
                     <!-- Wishlist button -->
-                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center text-gray-400 hover:text-orange-500 transition-colors shadow" @click="wishlistCount++">
-                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <button class="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-full bg-white/90 dark:bg-gray-800/90 flex items-center justify-center transition-colors shadow"
+                        :class="isFavorite({{ $related->id }}) ? 'text-red-500' : 'text-gray-450 hover:text-orange-500'"
+                        @click="toggleFavorite({{ $related->id }})">
+                        <svg class="w-4.5 h-4.5" :fill="isFavorite({{ $related->id }}) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     </button>
 
                     <!-- Image with link -->

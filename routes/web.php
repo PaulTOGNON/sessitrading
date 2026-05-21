@@ -20,8 +20,31 @@ Route::get('/products', [ProductController::class, 'shop'])->name('store.shop');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('store.show');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = Auth::user();
+    $orders = $user->orders()->with('items')->get();
+    $favorites = $user->favorites()->get();
+    $cartItems = $user->cartItems()->get();
+    return view('dashboard', compact('orders', 'favorites', 'cartItems'));
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Dynamic E-Commerce Routes
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\OrderController;
+
+Route::get('/api/store-data', function () {
+    return response()->json([
+        'cart' => \App\Services\CartService::getCart(),
+        'favorites' => \App\Services\WishlistService::getFavorites(),
+    ]);
+});
+
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+
+Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+Route::post('/orders/place', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

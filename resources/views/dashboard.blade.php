@@ -87,6 +87,23 @@
                 <!-- Main Content Area -->
                 <div class="lg:col-span-3">
                     
+                    <!-- Global success & error messages -->
+                    @if (session('success'))
+                        <div class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 p-4 rounded-2xl text-sm mb-6" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any() && !$errors->updatePassword->any())
+                        <div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded-2xl text-sm mb-6" role="alert">
+                            <ul class="list-disc pl-5 text-xs">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <!-- TAB 1: OVERVIEW -->
                     <div x-show="tab === 'overview'" class="space-y-6">
                         
@@ -106,7 +123,7 @@
                                     <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M17 18c-1.11 0-2 .89-2 2s.89 2 2 2 2-.89 2-2-.89-2-2-2zM7 18c-1.11 0-2 .89-2 2s.89 2 2 2 2-.89 2-2-.89-2-2-2zm0-3c.27 0 .53-.11.71-.29L9.5 13H15c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7z"/></svg>
                                 </div>
                                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Commandes</h3>
-                                <p class="text-3xl font-black text-gray-950">1 active</p>
+                                <p class="text-3xl font-black text-gray-950">{{ $orders->count() }}</p>
                                 <button @click="tab = 'orders'" class="text-xs font-bold text-orange-500 hover:text-orange-600 mt-4 block">Voir mes commandes &rarr;</button>
                             </div>
 
@@ -116,7 +133,7 @@
                                     <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 </div>
                                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Favoris</h3>
-                                <p class="text-3xl font-black text-gray-950">3 articles</p>
+                                <p class="text-3xl font-black text-gray-950" x-text="wishlistCount"></p>
                                 <button @click="tab = 'favorites'" class="text-xs font-bold text-orange-500 hover:text-orange-600 mt-4 block">Voir mes favoris &rarr;</button>
                             </div>
 
@@ -126,7 +143,7 @@
                                     <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12z"/></svg>
                                 </div>
                                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Panier</h3>
-                                <p class="text-3xl font-black text-gray-950">2 articles</p>
+                                <p class="text-3xl font-black text-gray-950" x-text="cartCount"></p>
                                 <button @click="tab = 'cart'" class="text-xs font-bold text-orange-500 hover:text-orange-600 mt-4 block">Voir le panier &rarr;</button>
                             </div>
 
@@ -162,87 +179,77 @@
                             </button>
                         </div>
 
-                    </div>
-
-                    <!-- TAB 2: ORDERS -->
+                                 <!-- TAB 2: ORDERS -->
                     <div x-show="tab === 'orders'" class="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm space-y-6">
                         <h3 class="text-lg font-black text-gray-950 tracking-tight">Historique des commandes</h3>
                         
                         <!-- Table/List of Orders -->
                         <div class="space-y-4">
-                            
-                            <!-- Order Item 1 -->
-                            <div class="border border-gray-100 rounded-2xl p-4 md:p-6 hover:shadow-md transition-shadow duration-300">
-                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4 text-xs font-bold">
-                                    <div class="flex flex-wrap gap-4 text-gray-500">
-                                        <span>Commande <span class="text-gray-900">#ST-84931</span></span>
-                                        <span>Passée le <span class="text-gray-900">18 Mai 2026</span></span>
-                                    </div>
-                                    <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">En cours de livraison</span>
-                                </div>
-                                
-                                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                                    <!-- Order detail summary -->
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden">
-                                            <img src="/images/products/robe_satin_vert_royal.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=150&auto=format&fit=crop&q=80'" alt="Product image">
+                            @forelse($orders as $order)
+                                <div class="border border-gray-100 rounded-2xl p-4 md:p-6 hover:shadow-md transition-shadow duration-300">
+                                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4 text-xs font-bold">
+                                        <div class="flex flex-wrap gap-4 text-gray-500">
+                                            <span>Commande <span class="text-gray-900">#ST-{{ $order->id }}</span></span>
+                                            <span>Passée le <span class="text-gray-900">{{ $order->created_at->format('d M Y') }}</span></span>
                                         </div>
-                                        <div>
-                                            <h4 class="text-sm font-bold text-gray-950">Robe Satin Vert Royal</h4>
-                                            <p class="text-xs text-gray-500 mt-0.5">Quantité : 1 • Couleur : Vert Royal</p>
-                                            <p class="text-xs font-extrabold text-orange-500 mt-1">29 500 FCFA</p>
-                                        </div>
+                                        @if($order->status === 'Livrée' || $order->status === 'completed' || $order->status === 'delivered')
+                                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">Livrée</span>
+                                        @elseif($order->status === 'pending' || $order->status === 'En attente' || $order->status === 'En cours')
+                                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">En cours</span>
+                                        @else
+                                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">{{ $order->status }}</span>
+                                        @endif
                                     </div>
                                     
-                                    <!-- Actions & Total -->
-                                    <div class="w-full md:w-auto flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
-                                        <div>
-                                            <p class="text-xs font-bold text-gray-400 text-left md:text-right uppercase">Total payé</p>
-                                            <p class="text-base font-black text-gray-950 mt-0.5">29 500 FCFA</p>
-                                        </div>
-                                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[10px] px-4 py-2 rounded-full transition-all">
-                                            Détails de la commande
-                                        </button>
+                                    <div class="space-y-4">
+                                        @foreach($order->items as $item)
+                                            @php
+                                                $prod = $item->product;
+                                            @endphp
+                                            <div class="flex justify-between items-center gap-6">
+                                                <div class="flex items-center gap-4">
+                                                    <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
+                                                        @if($prod)
+                                                            <img src="/images/products/{{ $prod->image }}" class="w-full h-full object-cover" alt="{{ $prod->name }}">
+                                                        @else
+                                                            <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">?</div>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="text-sm font-bold text-gray-950">{{ $prod ? $prod->name : 'Produit supprimé' }}</h4>
+                                                        <p class="text-xs text-gray-500 mt-0.5">Quantité : {{ $item->quantity }}</p>
+                                                        <p class="text-xs font-extrabold text-orange-500 mt-1">{{ number_format($item->price, 0, ',', ' ') }} FCFA</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                </div>
-                            </div>
 
-                            <!-- Order Item 2 -->
-                            <div class="border border-gray-100 rounded-2xl p-4 md:p-6 hover:shadow-md transition-shadow duration-300">
-                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4 text-xs font-bold">
-                                    <div class="flex flex-wrap gap-4 text-gray-500">
-                                        <span>Commande <span class="text-gray-900">#ST-79012</span></span>
-                                        <span>Passée le <span class="text-gray-900">12 Avril 2026</span></span>
-                                    </div>
-                                    <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] tracking-wide uppercase">Livrée</span>
-                                </div>
-                                
-                                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                                    <!-- Order detail summary -->
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden">
-                                            <img src="/images/products/lin_ensemble_decontracte.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=150&auto=format&fit=crop&q=80'" alt="Product image">
-                                        </div>
+                                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pt-4 mt-4 border-t border-gray-100">
                                         <div>
-                                            <h4 class="text-sm font-bold text-gray-950">Lin Ensemble Décontracté</h4>
-                                            <p class="text-xs text-gray-500 mt-0.5">Quantité : 1 • Couleur : Beige</p>
-                                            <p class="text-xs font-extrabold text-orange-500 mt-1">24 500 FCFA</p>
+                                            <p class="text-xs font-bold text-gray-400 uppercase">Adresse de livraison</p>
+                                            <p class="text-xs text-gray-700 mt-0.5">{{ $order->shipping_address }}, {{ $order->shipping_city }}, {{ $order->shipping_country }}</p>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- Actions & Total -->
-                                    <div class="w-full md:w-auto flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
-                                        <div>
-                                            <p class="text-xs font-bold text-gray-400 text-left md:text-right uppercase">Total payé</p>
-                                            <p class="text-base font-black text-gray-950 mt-0.5">24 500 FCFA</p>
+                                        <div class="w-full md:w-auto flex items-center justify-between md:justify-end gap-6 font-bold">
+                                            <div class="text-left md:text-right">
+                                                <p class="text-xs font-bold text-gray-400 uppercase">Total payé</p>
+                                                <p class="text-base font-black text-gray-950 mt-0.5">{{ number_format($order->total_amount, 0, ',', ' ') }} FCFA</p>
+                                            </div>
                                         </div>
-                                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[10px] px-4 py-2 rounded-full transition-all">
-                                            Facture PDF
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
-
+                            @empty
+                                <div class="text-center py-12 flex flex-col items-center justify-center gap-3">
+                                    <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                    </div>
+                                    <p class="text-sm font-bold text-gray-900">Vous n'avez pas encore passé de commande.</p>
+                                    <p class="text-xs text-gray-400">Parcourez notre boutique pour trouver votre bonheur.</p>
+                                    <a href="{{ route('store.shop') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-4 py-2 rounded-full mt-2 transition-colors">
+                                        Visiter la boutique
+                                    </a>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
 
@@ -252,67 +259,37 @@
                         
                         <!-- Favorites grid -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <template x-for="fav in favorites" :key="fav.id">
+                                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all duration-300">
+                                    <div class="relative h-64 bg-gray-100">
+                                        <img :src="'/images/products/' + fav.product.image" class="w-full h-full object-cover" :alt="fav.product.name">
+                                        <button @click="toggleFavorite(fav.product_id)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-red-500 shadow-md">
+                                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                        </button>
+                                    </div>
+                                    <div class="p-4 flex flex-col gap-1.5">
+                                        <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase" x-text="fav.product.category"></span>
+                                        <h4 class="text-sm font-bold text-gray-955 truncate" x-text="fav.product.name"></h4>
+                                        <div class="flex items-center justify-between mt-2">
+                                            <span class="text-sm font-black text-orange-500" x-text="numberFormat(fav.product.price) + ' FCFA'"></span>
+                                            <a :href="'/products/' + fav.product.slug" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-[10px] px-3.5 py-1.5 rounded-full transition-all">
+                                                Acheter
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
                             
-                            <!-- Favorite Item 1 -->
-                            <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all duration-300">
-                                <div class="relative h-64 bg-gray-100">
-                                    <img src="/images/products/boubou_soie_brode_bleu.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&auto=format&fit=crop&q=80'" alt="Boubou Soie Brodé Bleu">
-                                    <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-red-500 shadow-md">
-                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                                    </button>
+                            <div x-show="favorites.length === 0" class="col-span-full text-center py-12 flex flex-col items-center justify-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                                 </div>
-                                <div class="p-4 flex flex-col gap-1.5">
-                                    <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Boubous</span>
-                                    <h4 class="text-sm font-bold text-gray-950 truncate">Boubou Soie Brodé Bleu</h4>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <span class="text-sm font-black text-orange-500">45 000 FCFA</span>
-                                        <a href="{{ route('store.shop') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-[10px] px-3.5 py-1.5 rounded-full transition-all">
-                                            Acheter
-                                        </a>
-                                    </div>
-                                </div>
+                                <p class="text-sm font-bold text-gray-900">Votre liste de favoris est vide.</p>
+                                <p class="text-xs text-gray-400">Ajoutez des articles en cliquant sur l'icône de cœur sur les fiches produits.</p>
+                                <a href="{{ route('store.shop') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-4 py-2 rounded-full mt-2 transition-colors">
+                                    Voir les produits
+                                </a>
                             </div>
-
-                            <!-- Favorite Item 2 -->
-                            <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all duration-300">
-                                <div class="relative h-64 bg-gray-100">
-                                    <img src="/images/products/robe_satin_vert_royal.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&auto=format&fit=crop&q=80'" alt="Robe Satin Vert Royal">
-                                    <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-red-500 shadow-md">
-                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                                    </button>
-                                </div>
-                                <div class="p-4 flex flex-col gap-1.5">
-                                    <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Robes</span>
-                                    <h4 class="text-sm font-bold text-gray-950 truncate">Robe Satin Vert Royal</h4>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <span class="text-sm font-black text-orange-500">29 500 FCFA</span>
-                                        <a href="{{ route('store.shop') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-[10px] px-3.5 py-1.5 rounded-full transition-all">
-                                            Acheter
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Favorite Item 3 -->
-                            <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all duration-300">
-                                <div class="relative h-64 bg-gray-100">
-                                    <img src="/images/products/lin_ensemble_decontracte.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&auto=format&fit=crop&q=80'" alt="Lin Ensemble Décontracté">
-                                    <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-red-500 shadow-md">
-                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                                    </button>
-                                </div>
-                                <div class="p-4 flex flex-col gap-1.5">
-                                    <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Ensembles</span>
-                                    <h4 class="text-sm font-bold text-gray-950 truncate">Lin Ensemble Décontracté</h4>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <span class="text-sm font-black text-orange-500">24 500 FCFA</span>
-                                        <a href="{{ route('store.shop') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-[10px] px-3.5 py-1.5 rounded-full transition-all">
-                                            Acheter
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
@@ -322,66 +299,96 @@
                         
                         <!-- List of Cart Items -->
                         <div class="divide-y divide-gray-100">
-                            
-                            <!-- Cart Item 1 -->
-                            <div class="py-4 flex justify-between items-center gap-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
-                                        <img src="/images/products/robe_satin_vert_royal.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=150&auto=format&fit=crop&q=80'" alt="Robe Satin">
+                            <template x-for="item in cartItems" :key="item.id">
+                                <div class="py-4 flex justify-between items-center gap-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
+                                            <img :src="'/images/products/' + item.product.image" class="w-full h-full object-cover" :alt="item.product.name">
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-bold text-gray-955" x-text="item.product.name"></h4>
+                                            <p class="text-xs text-gray-500 mt-0.5" x-text="item.product.category"></p>
+                                            <span class="text-xs text-orange-500 font-extrabold block mt-1" x-text="numberFormat(item.product.price) + ' FCFA'"></span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 class="text-sm font-bold text-gray-950">Robe Satin Vert Royal</h4>
-                                        <p class="text-xs text-gray-500 mt-0.5">Couleur : Vert Royal</p>
-                                        <span class="text-xs text-orange-500 font-extrabold block mt-1">29 500 FCFA</span>
+                                    <div class="flex items-center gap-4 text-sm">
+                                        <div class="flex items-center border border-gray-100 rounded-full px-2.5 py-1 bg-gray-50 text-xs font-extrabold gap-3">
+                                            <button @click="updateCartQty(item.id, -1)" class="hover:text-orange-500 font-extrabold text-gray-500">&minus;</button>
+                                            <span class="text-gray-900" x-text="item.quantity"></span>
+                                            <button @click="updateCartQty(item.id, 1)" class="hover:text-orange-500 font-extrabold text-gray-500">&plus;</button>
+                                        </div>
+                                        <button @click="removeFromCart(item.id)" class="text-red-500 hover:text-red-650 transition-colors">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-4 text-sm">
-                                    <div class="flex items-center border border-gray-100 rounded-full px-2.5 py-1 bg-gray-50 text-xs font-extrabold gap-3">
-                                        <button class="hover:text-orange-500">&minus;</button>
-                                        <span>1</span>
-                                        <button class="hover:text-orange-500">&plus;</button>
-                                    </div>
-                                    <button class="text-red-500 hover:text-red-600 transition-colors">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                </div>
-                            </div>
+                            </template>
 
-                            <!-- Cart Item 2 -->
-                            <div class="py-4 flex justify-between items-center gap-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
-                                        <img src="/images/products/boubou_soie_brode_bleu.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=150&auto=format&fit=crop&q=80'" alt="Boubou Soie">
-                                    </div>
-                                    <div>
-                                        <h4 class="text-sm font-bold text-gray-950">Boubou Soie Brodé Bleu</h4>
-                                        <p class="text-xs text-gray-500 mt-0.5">Couleur : Bleu Indigo</p>
-                                        <span class="text-xs text-orange-500 font-extrabold block mt-1">45 000 FCFA</span>
-                                    </div>
+                            <div x-show="cartItems.length === 0" class="text-center py-12 flex flex-col items-center justify-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                                 </div>
-                                <div class="flex items-center gap-4 text-sm">
-                                    <div class="flex items-center border border-gray-100 rounded-full px-2.5 py-1 bg-gray-50 text-xs font-extrabold gap-3">
-                                        <button class="hover:text-orange-500">&minus;</button>
-                                        <span>1</span>
-                                        <button class="hover:text-orange-500">&plus;</button>
-                                    </div>
-                                    <button class="text-red-500 hover:text-red-600 transition-colors">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                </div>
+                                <p class="text-sm font-bold text-gray-900">Votre panier est vide.</p>
+                                <p class="text-xs text-gray-400">Ajoutez des articles pour passer une commande.</p>
+                                <a href="{{ route('store.shop') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-4 py-2 rounded-full mt-2 transition-colors">
+                                    Visiter la boutique
+                                </a>
                             </div>
-
                         </div>
 
-                        <!-- Subtotal and checkout -->
-                        <div class="border-t border-gray-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <!-- Shipping and Order Placement Form -->
+                        <div x-show="cartItems.length > 0" class="border-t border-gray-100 pt-6 space-y-6">
                             <div>
-                                <p class="text-xs font-bold text-gray-400 uppercase">Sous-total du panier</p>
-                                <p class="text-2xl font-black text-gray-950 mt-1">74 500 FCFA</p>
+                                <h4 class="text-sm font-extrabold text-gray-950">Adresse de livraison & Confirmation</h4>
+                                <p class="text-xs text-gray-500">Veuillez vérifier et ajuster votre adresse de livraison pour cette commande.</p>
                             </div>
-                            <a href="{{ route('store.shop') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-6 py-3 rounded-full shadow-lg shadow-orange-500/15 transition-all">
-                                Passer au paiement
-                            </a>
+
+                            <form method="POST" action="{{ route('orders.store') }}" class="space-y-4">
+                                @csrf
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- Shipping Address -->
+                                    <div class="md:col-span-2">
+                                        <label for="shipping_address" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Adresse exacte (Rue, Maison, Repères)</label>
+                                        <input type="text" name="shipping_address" id="shipping_address" required
+                                            value="{{ old('shipping_address', Auth::user()->address) }}"
+                                            class="w-full bg-gray-50 text-sm rounded-xl pl-4 pr-4 py-3 border border-gray-200 text-gray-900 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all duration-200">
+                                    </div>
+
+                                    <!-- Shipping City -->
+                                    <div>
+                                        <label for="shipping_city" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ville</label>
+                                        <input type="text" name="shipping_city" id="shipping_city" required
+                                            value="{{ old('shipping_city', Auth::user()->city) }}"
+                                            class="w-full bg-gray-50 text-sm rounded-xl pl-4 pr-4 py-3 border border-gray-200 text-gray-900 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all duration-200">
+                                    </div>
+
+                                    <!-- Shipping Country -->
+                                    <div>
+                                        <label for="shipping_country" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pays</label>
+                                        <input type="text" name="shipping_country" id="shipping_country" required
+                                            value="{{ old('shipping_country', Auth::user()->country) }}"
+                                            class="w-full bg-gray-50 text-sm rounded-xl pl-4 pr-4 py-3 border border-gray-200 text-gray-900 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all duration-200">
+                                    </div>
+
+                                    <!-- Shipping Phone Number -->
+                                    <div class="md:col-span-2">
+                                        <label for="phone_number" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Numéro de téléphone de contact pour la livraison</label>
+                                        <input type="text" name="phone_number" id="phone_number" required
+                                            value="{{ old('phone_number', Auth::user()->phone_number) }}"
+                                            class="w-full bg-gray-50 text-sm rounded-xl pl-4 pr-4 py-3 border border-gray-200 text-gray-900 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all duration-200">
+                                    </div>
+                                </div>
+
+                                <div class="pt-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                                    <div>
+                                        <p class="text-xs font-bold text-gray-400 uppercase">Total de la commande</p>
+                                        <p class="text-2xl font-black text-gray-950 mt-1" x-text="numberFormat(cartTotal) + ' FCFA'"></p>
+                                    </div>
+                                    <button type="submit" class="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-8 py-3.5 rounded-xl shadow-lg shadow-orange-500/15 hover:scale-[1.01] transition-all">
+                                        Confirmer & Commander (Paiement à la livraison)
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
 
