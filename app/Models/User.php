@@ -27,6 +27,8 @@ class User extends Authenticatable
         'address',
         'city',
         'country',
+        'is_admin',
+        'is_suspended',
     ];
 
     /**

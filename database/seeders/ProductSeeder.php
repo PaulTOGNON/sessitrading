@@ -1,76 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace Database\Seeders;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
+use Illuminate\Database\Seeder;
 
-class Product extends Model
+class ProductSeeder extends Seeder
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'id',
-        'name',
-        'slug',
-        'price',
-        'original_price',
-        'image',
-        'category',
-        'description',
-        'rating',
-        'reviews_count',
-        'is_popular',
-        'is_new',
-        'stock',
-    ];
-
     /**
-     * Get the route key for the model.
+     * Run the database seeds.
      */
-    public function getRouteKeyName(): string
+    public function run(): void
     {
-        return 'slug';
-    }
-
-    /**
-     * Accessor for formatted price (e.g., "15 000 F").
-     */
-    public function getFormattedPriceAttribute(): string
-    {
-        return number_format($this->price, 0, ',', ' ') . ' F';
-    }
-
-    /**
-     * Accessor for formatted original price if it exists.
-     */
-    public function getFormattedOriginalPriceAttribute(): ?string
-    {
-        if (!$this->original_price) {
-            return null;
-        }
-        return number_format($this->original_price, 0, ',', ' ') . ' F';
-    }
-
-    /**
-     * Return static products from "produits et prix.md"
-     * bypassing the database.
-     */
-    public static function allStatic()
-    {
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
-                $dbProducts = self::all();
-                if ($dbProducts->count() > 0) {
-                    return $dbProducts;
-                }
-            }
-        } catch (\Exception $e) {
-            // Fallback to static collection if connection or table fails
-        }
-
-        return collect([
-            new static([
+        $products = [
+            [
                 'id' => 1,
                 'name' => 'Boubou oversized',
                 'slug' => 'boubou-oversized',
@@ -84,8 +27,8 @@ class Product extends Model
                 'is_popular' => true,
                 'is_new' => false,
                 'stock' => 8,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 2,
                 'name' => 'Robe élégante',
                 'slug' => 'robe-elegante',
@@ -99,8 +42,8 @@ class Product extends Model
                 'is_popular' => true,
                 'is_new' => true,
                 'stock' => 5,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 3,
                 'name' => 'Chemise chic',
                 'slug' => 'chemise-chic',
@@ -114,8 +57,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => false,
                 'stock' => 12,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 4,
                 'name' => 'Ensemble short',
                 'slug' => 'ensemble-short',
@@ -129,8 +72,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => true,
                 'stock' => 7,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 5,
                 'name' => 'Gilet chic décontracté',
                 'slug' => 'gilet-chic-decontracte',
@@ -144,8 +87,8 @@ class Product extends Model
                 'is_popular' => true,
                 'is_new' => false,
                 'stock' => 6,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 6,
                 'name' => 'Gilet contemporain',
                 'slug' => 'gilet-contemporain',
@@ -159,8 +102,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => true,
                 'stock' => 4,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 7,
                 'name' => 'Ensemble crop-top et jupe évasée',
                 'slug' => 'ensemble-crop-top-et-jupe-evasee',
@@ -174,8 +117,8 @@ class Product extends Model
                 'is_popular' => true,
                 'is_new' => false,
                 'stock' => 9,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 8,
                 'name' => 'Robe décontractée',
                 'slug' => 'robe-decontractee',
@@ -189,8 +132,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => false,
                 'stock' => 15,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 9,
                 'name' => 'Boubou fleuri décoré',
                 'slug' => 'boubou-fleuri-decore',
@@ -204,8 +147,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => true,
                 'stock' => 3,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 10,
                 'name' => 'Boubou lumineux',
                 'slug' => 'boubou-lumineux',
@@ -219,8 +162,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => false,
                 'stock' => 6,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 11,
                 'name' => 'Salopette évasée',
                 'slug' => 'salopette-evasee',
@@ -234,8 +177,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => false,
                 'stock' => 5,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 12,
                 'name' => 'Boubou ample chic',
                 'slug' => 'boubou-ample-chic',
@@ -249,8 +192,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => true,
                 'stock' => 7,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 13,
                 'name' => 'Boubou ample décontracté',
                 'slug' => 'boubou-ample-decontracte',
@@ -264,8 +207,8 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => false,
                 'stock' => 10,
-            ]),
-            new static([
+            ],
+            [
                 'id' => 14,
                 'name' => 'Gilet contemporain premium',
                 'slug' => 'gilet-contemporain-premium',
@@ -279,25 +222,11 @@ class Product extends Model
                 'is_popular' => false,
                 'is_new' => false,
                 'stock' => 4,
-            ]),
-        ]);
-    }
+            ],
+        ];
 
-    /**
-     * Relationships
-     */
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class);
-    }
-
-    public function cartItems()
-    {
-        return $this->hasMany(CartItem::class);
-    }
-
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class);
+        foreach ($products as $p) {
+            Product::updateOrCreate(['id' => $p['id']], $p);
+        }
     }
 }
